@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">superhero</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="done">Done</string>
+    <string name="search">Search</string>
+    <string name="Default">Default</string>
+    <string name="more">More</string>
+    <string name="network_error">Network Error</string>
+    <string name="error">Error</string>
+    <string name="New">New</string>
+    <string name="category">Category</string>
+    <string name="categories">Categories</string>
+    <string name="valid">Valid</string>
+    <string name="invalid">Invalid</string>
+    <string name="no_internet">No Internet</string>
+    <string name="warning">Warning</string>
+    <string name="clear_filter">Clear Filter</string>
+    <string name="filter">Filter</string>
+    <string name="sign_in">Sign in</string>
+    <string name="send">Send</string>
+    <string name="open">Open</string>
+    <string name="closed">Closed</string>
+    <string name="completed">Completed</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="invalid_email">Invalid Email</string>
+    <string name="invalid_password">Invalid Password</string>
+    <string name="email">Email</string>
+
+    <string name="random_text">Lorem ipsum dolor sit amet</string>
+    <string name="username">Username</string>
+    <string name="log_in">Log in</string>
+    <string name="back">Back</string>
+    <string name="name">Name</string>
+</resources>
