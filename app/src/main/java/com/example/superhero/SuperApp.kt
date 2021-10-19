@@ -1,8 +1,8 @@
 package com.example.superhero
 
 import android.app.Application
+import androidx.fragment.app.Fragment
 import com.example.superhero.presentation.SuperViewModel
-import com.example.superhero.presentation.login.LoginFragment
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -19,9 +19,16 @@ class ViewModelStorage() {
 
     private val storage = HashMap<String, SuperViewModel>()
 
-    fun get(clazz: KClass<LoginFragment>): SuperViewModel? {
-        return storage[clazz.qualifiedName!!]
-            ?: storage.put(clazz.qualifiedName!!, clazz)
+    fun get(
+        clazz: KClass<out Fragment>,
+        viewModelFactory: () -> SuperViewModel
+    ): SuperViewModel? {
+        return storage[clazz.qualifiedName]
+            ?: storage.put(clazz.qualifiedName!!, viewModelFactory.invoke())
     }
 
+    fun remove(clazz: KClass<out Fragment>) {
+        storage.remove(clazz.qualifiedName)
+            ?.onDestroy()
+    }
 }

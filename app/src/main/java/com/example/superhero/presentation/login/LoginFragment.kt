@@ -10,8 +10,10 @@ import com.example.superhero.navigation
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
-    val viewModel by lazy {
-        (activity?.application as SuperApp).viewModelStorage.get(this::class)
+    private val viewModel by lazy {
+        (activity?.application as SuperApp).viewModelStorage.get(this::class) {
+            LoginViewModel()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -22,11 +24,14 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 navigation().toSignUp()
             }
         }
+        viewModel
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        activity?.isChangingConfigurations
+        if (activity?.isChangingConfigurations == false) {
+            (activity?.application as SuperApp).viewModelStorage.remove(this::class)
+        }
     }
 }

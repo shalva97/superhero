@@ -7,4 +7,9 @@ class LoginViewModel : SuperViewModel() {
     init {
         Log.d("LoginViewModel", "init")
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("LoginViewModel", "on Destory")
+    }
 }
