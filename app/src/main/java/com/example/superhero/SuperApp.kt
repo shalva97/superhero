@@ -17,31 +17,23 @@ class SuperApp : Application() {
 
 private val storage = HashMap<String, SuperViewModel>()
 
-private fun get(
-    fragment: Fragment,
-    viewModelFactory: () -> SuperViewModel
-): SuperViewModel {
-
-    val superViewModel = storage[fragment::class.qualifiedName]
+fun Fragment.getViewModel(viewModelFactory: () -> SuperViewModel): SuperViewModel {
+    val superViewModel = storage[this::class.qualifiedName]
     return if (superViewModel == null) {
 
-        fragment.lifecycle.addObserver(object : LifecycleObserver {
+        lifecycle.addObserver(object : LifecycleObserver {
 
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
             fun onDestroy() {
-                storage.remove(fragment::class.qualifiedName)
+                storage.remove(this::class.qualifiedName)
                     ?.onDestroy()
             }
         })
 
         val newViewModel = viewModelFactory.invoke()
-        storage[fragment::class.qualifiedName!!] = newViewModel
+        storage[this::class.qualifiedName!!] = newViewModel
         newViewModel
     } else {
         superViewModel
     }
-}
-
-fun Fragment.getViewModel(viewModelFactory: () -> SuperViewModel): SuperViewModel {
-    return get(this, viewModelFactory)
 }
