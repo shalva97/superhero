@@ -6,11 +6,12 @@ import androidx.fragment.app.Fragment
 import com.example.superhero.R
 import com.example.superhero.SuperApp
 import com.example.superhero.databinding.FragmentSignUpBinding
+import com.example.superhero.getViewModel
 
 class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
 
     private val viewModel by lazy {
-        (activity?.application as SuperApp).viewModelStorage.get(this::class) {
+        getViewModel {
             SignUpViewModel()
         }
     }
@@ -25,10 +26,4 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
         viewModel
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        if (activity?.isChangingConfigurations == false) {
-            (activity?.application as SuperApp).viewModelStorage.remove(this::class)
-        }
-    }
 }

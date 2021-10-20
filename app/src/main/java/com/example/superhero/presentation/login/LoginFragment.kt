@@ -6,12 +6,13 @@ import androidx.fragment.app.Fragment
 import com.example.superhero.R
 import com.example.superhero.SuperApp
 import com.example.superhero.databinding.FragmentLoginBinding
+import com.example.superhero.getViewModel
 import com.example.superhero.navigation
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private val viewModel by lazy {
-        (activity?.application as SuperApp).viewModelStorage.get(this::class) {
+        getViewModel {
             LoginViewModel()
         }
     }
@@ -26,12 +27,5 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
         viewModel
 
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (activity?.isChangingConfigurations == false) {
-            (activity?.application as SuperApp).viewModelStorage.remove(this::class)
-        }
     }
 }
