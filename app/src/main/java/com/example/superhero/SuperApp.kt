@@ -25,8 +25,10 @@ fun Fragment.getViewModel(viewModelFactory: () -> SuperViewModel): SuperViewMode
 
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
             fun onDestroy() {
-                storage.remove(this::class.qualifiedName)
-                    ?.onDestroy()
+                if (activity?.isChangingConfigurations == false) {
+                    storage.remove(this::class.qualifiedName)
+                        ?.onDestroy()
+                }
             }
         })
 
