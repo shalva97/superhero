@@ -4,18 +4,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.superhero.R
-import com.example.superhero.SuperApp
 import com.example.superhero.databinding.FragmentLoginBinding
 import com.example.superhero.getViewModel
 import com.example.superhero.navigation
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
-    private val viewModel by lazy {
-        getViewModel {
-            LoginViewModel()
-        }
+    private val viewModel = getViewModel {
+        LoginViewModel()
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

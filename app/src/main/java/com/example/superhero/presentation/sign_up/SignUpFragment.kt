@@ -4,16 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.superhero.R
-import com.example.superhero.SuperApp
 import com.example.superhero.databinding.FragmentSignUpBinding
 import com.example.superhero.getViewModel
 
 class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
 
-    private val viewModel by lazy {
-        getViewModel {
-            SignUpViewModel()
-        }
+    private val viewModel = getViewModel {
+        SignUpViewModel()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
