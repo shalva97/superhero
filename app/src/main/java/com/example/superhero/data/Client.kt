@@ -2,9 +2,16 @@ package com.example.superhero.data
 
 import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.util.concurrent.TimeUnit
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
+import kotlin.time.toJavaDuration
 
 class Client {
-    private val client = OkHttpClient()
+
+    private val client = OkHttpClient.Builder()
+        .readTimeout(1, TimeUnit.MINUTES)
+        .build()
 
     private val baseUrl = HttpUrl.Builder()
         .scheme("https")
@@ -14,8 +21,8 @@ class Client {
     fun login(userName: String, password: String): Response {
 
         val url = baseUrl.newBuilder("auth/login")!!
-            .addQueryParameter("username", "blah")
-            .addQueryParameter("password", "blah")
+            .addQueryParameter("username", userName)
+            .addQueryParameter("password", password)
             .build()
 
         val request = Request.Builder()
