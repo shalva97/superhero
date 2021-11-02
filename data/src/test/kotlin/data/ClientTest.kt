@@ -9,18 +9,17 @@ class ClientTest {
 
     @Test
     fun login() {
-        val respo = client.login("blah", "bluh")
+        val respo = client.login("string", "string")
 
-        println(respo.accessToken)
-
-        assert(respo != null)
+        assert(respo.accessToken.isNotEmpty())
     }
 
     @Test
-    fun jsonBuilder() {
+    fun register() {
 
         val res = client.register("blah", "bluh", "you are gay")
 
-        println(res)
+        println(res.body?.string())
+        assert(res.code == 200)
     }
 }

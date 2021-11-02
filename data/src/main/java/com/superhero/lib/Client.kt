@@ -8,9 +8,17 @@ import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
+import okhttp3.logging.HttpLoggingInterceptor
 
 class Client {
+
     private val client = OkHttpClient()
+        .newBuilder()
+        .addInterceptor(HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }).build()
+
 
     private val baseUrl = HttpUrl.Builder()
         .scheme("https")
@@ -37,7 +45,7 @@ class Client {
         return serializer.decodeFromString<LoginResponse>(response)
     }
 
-    fun register(userName: String, password: String, name: String) {
+    fun register(userName: String, password: String, name: String): Response {
 
         @Serializable
         data class Registration(val userName: String, val password: String, val name: String)
@@ -49,12 +57,14 @@ class Client {
             Registration(userName, password, name)
         )
 
+        println(postData)
         val request = Request.Builder()
             .post(postData.toRequestBody())
+            .addHeader("Content-Type", "application/json")
             .url(url)
             .build()
 
-        client.newCall(request)
+        return client.newCall(request).execute()
     }
 
 }
