@@ -6,20 +6,26 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.example.superhero.presentation.SuperViewModel
+import com.superhero.lib.Client
 import java.util.*
 
 class SuperApp : Application() {
 
+    val components = Components()
+
     override fun onCreate() {
         super.onCreate()
-
     }
+}
+
+class Components {
+    val httpClient by lazy { Client() }
 }
 
 private val storage = HashMap<String, SuperViewModel>()
 
-fun Fragment.getViewModel(viewModelFactory: () -> SuperViewModel): SuperViewModel {
-    val superViewModel = storage[this::class.qualifiedName]
+fun <T: SuperViewModel> Fragment.getViewModel(viewModelFactory: () -> T): T {
+    val superViewModel = storage[this::class.qualifiedName] as? T
     return if (superViewModel == null) {
 
         lifecycle.addObserver(object : LifecycleObserver {
@@ -27,8 +33,9 @@ fun Fragment.getViewModel(viewModelFactory: () -> SuperViewModel): SuperViewMode
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
             fun onDestroy() {
                 if (activity?.isChangingConfigurations == false) {
-                    storage.remove(this::class.qualifiedName)
+                    storage.remove(this@getViewModel::class.qualifiedName)
                         ?.onDestroy()
+                    lifecycle.removeObserver(this)
                 }
             }
         })
