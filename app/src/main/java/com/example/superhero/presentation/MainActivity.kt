@@ -36,10 +36,5 @@ class MainActivity : AppCompatActivity(), Navigation {
         transaction.replace(R.id.content, LoginFragment())
         transaction.commit()
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        isChangingConfigurations
-    }
 }
 
