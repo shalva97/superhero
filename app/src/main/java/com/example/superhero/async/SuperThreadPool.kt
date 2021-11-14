@@ -1,20 +1,12 @@
 package com.example.superhero.async
 
 import java.util.concurrent.ArrayBlockingQueue
-import java.util.ArrayList
-
 
 class SuperThreadPool(numberOfThreads: Int, queue: Int) {
 
-    private var taskQueue = ArrayBlockingQueue<Runnable>(queue)
-    private val superThreads = ArrayList<SuperThread>()
+    private var taskQueue = ArrayBlockingQueue<Pair<(Throwable) -> Unit ,Runnable>>(queue)
+    private val superThreads = List<SuperThread>(numberOfThreads) { SuperThread(taskQueue) }
     private var isStopped = false
-
-    init {
-        for (i in 0 until numberOfThreads) {
-            superThreads.add(SuperThread(taskQueue))
-        }
-    }
 
     @Synchronized
     fun stop() {
@@ -25,12 +17,8 @@ class SuperThreadPool(numberOfThreads: Int, queue: Int) {
     }
 
     @Synchronized
-    @Throws(Exception::class)
-    fun execute(task: Runnable) {
-        check(!isStopped) {
-            "Thread Pool stopped!"
-        }
-        taskQueue.offer(task)
+    fun launch(handler: (Throwable) -> Unit, task: Runnable) {
+        taskQueue.offer(handler to task)
     }
 
     @Synchronized

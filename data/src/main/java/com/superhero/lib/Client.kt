@@ -17,13 +17,13 @@ class Client {
 
     private val client = OkHttpClient()
         .newBuilder()
-        .proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress(8888)))
+//        .proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress("192.168.88.234", 8888)))
         .addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }).build()
 
     private val baseUrl = HttpUrl.Builder()
-        .scheme("http")
+        .scheme("https")
         .host("commschool-android-api.herokuapp.com")
         .build()
 

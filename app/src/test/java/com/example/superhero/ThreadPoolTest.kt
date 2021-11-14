@@ -11,17 +11,17 @@ class ThreadPoolTest {
     fun runFunctionThatPrintsStuff() {
         val results = mutableListOf<String>()
 
-        pool.execute {
+        pool.launch {
             Thread.sleep(100)
             results.add("blah")
         }
 
-        pool.execute {
+        pool.launch {
             Thread.sleep(40)
             results.add("one")
         }
 
-        pool.execute {
+        pool.launch {
             Thread.sleep(150)
             results.add("two")
         }

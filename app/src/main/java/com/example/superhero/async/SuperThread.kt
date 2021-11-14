@@ -1,9 +1,11 @@
 package com.example.superhero.async
 
-import java.util.concurrent.BlockingQueue
+import java.util.concurrent.ArrayBlockingQueue
 
 
-class SuperThread(private val taskQueue: BlockingQueue<Runnable>) {
+class SuperThread(
+    private val taskQueue: ArrayBlockingQueue<Pair<(Throwable) -> Unit, Runnable>>
+) {
 
     private var thread: Thread
 
@@ -18,13 +20,15 @@ class SuperThread(private val taskQueue: BlockingQueue<Runnable>) {
     init {
         thread = Thread {
             while (!isStopped) {
+                val task = taskQueue.take()
                 try {
-                    val task = taskQueue.take()
                     isWorking = true
-                    task.run()
+                    task.second.run()
                     isWorking = false
                 } catch (e: InterruptedException) {
                     // blah
+                } catch (throwable: Throwable) {
+                    task.first.invoke(throwable)
                 }
             }
         }
@@ -36,6 +40,5 @@ class SuperThread(private val taskQueue: BlockingQueue<Runnable>) {
         isStopped = true
         thread.interrupt()
     }
-
 
 }

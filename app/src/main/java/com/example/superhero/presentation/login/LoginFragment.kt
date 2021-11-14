@@ -11,12 +11,13 @@ import com.example.superhero.navigation
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
-    private val viewModel = getViewModel {
-        LoginViewModel(context?.applicationContext as SuperApp)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val viewModel = getViewModel {
+            val application = context?.applicationContext as SuperApp
+            LoginViewModel(application.components.httpClient, application.components.superThreadPool)
+        }
 
         FragmentLoginBinding.bind(view).apply {
             signUp.setOnClickListener {
@@ -27,7 +28,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 viewModel.login()
             }
         }
-        viewModel
 
     }
 }

@@ -7,7 +7,7 @@ import org.junit.Test
 
 class ClientTest {
 
-    val client = Client()
+    private val client = Client()
 
     @Test
     fun login() {

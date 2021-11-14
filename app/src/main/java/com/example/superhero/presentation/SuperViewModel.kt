@@ -1,7 +1,16 @@
 package com.example.superhero.presentation
 
-abstract class SuperViewModel {
-    open fun onDestroy() {
+import android.util.Log
+import androidx.annotation.CallSuper
 
+abstract class SuperViewModel {
+
+    init {
+        Log.d(this::class.java.canonicalName, "init")
+    }
+
+    @CallSuper
+    open fun onDestroy() {
+        Log.d("LoginViewModel", "on Destory")
     }
 }

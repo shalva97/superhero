@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import com.example.superhero.async.SuperThreadPool
 import com.example.superhero.presentation.SuperViewModel
 import com.superhero.lib.Client
 import java.util.*
@@ -20,6 +21,10 @@ class SuperApp : Application() {
 
 class Components {
     val httpClient by lazy { Client() }
+    val superThreadPool by lazy {
+        val cores = Runtime.getRuntime().availableProcessors()
+        SuperThreadPool(numberOfThreads = cores, queue = cores*2)
+    }
 }
 
 private val storage = HashMap<String, SuperViewModel>()

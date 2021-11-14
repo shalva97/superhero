@@ -1,20 +1,20 @@
 package com.example.superhero.presentation.login
 
-import android.util.Log
-import com.example.superhero.SuperApp
+import com.example.superhero.async.SuperThreadPool
 import com.example.superhero.presentation.SuperViewModel
+import com.superhero.lib.Client
 
-class LoginViewModel(val application: SuperApp) : SuperViewModel() {
-    init {
-        Log.d("LoginViewModel", "init")
+class LoginViewModel(
+    private val client: Client, private val superThreadPool: SuperThreadPool
+) : SuperViewModel() {
+
+    private fun exceptionHandler(exception: Throwable) {
+        exception.printStackTrace()
     }
 
     fun login() {
-        application.components.httpClient.login("string", "string")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("LoginViewModel", "on Destory")
+        superThreadPool.launch(::exceptionHandler) {
+            client.login("string", "string")
+        }
     }
 }
