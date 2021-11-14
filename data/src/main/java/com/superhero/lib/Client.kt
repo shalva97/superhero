@@ -10,18 +10,20 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
+import java.net.InetSocketAddress
+import java.net.Proxy
 
 class Client {
 
     private val client = OkHttpClient()
         .newBuilder()
+        .proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress(8888)))
         .addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }).build()
 
-
     private val baseUrl = HttpUrl.Builder()
-        .scheme("https")
+        .scheme("http")
         .host("commschool-android-api.herokuapp.com")
         .build()
 
@@ -50,7 +52,7 @@ class Client {
         @Serializable
         data class Registration(val userName: String, val password: String, val name: String)
 
-        val url = baseUrl.newBuilder("auth/login")!!
+        val url = baseUrl.newBuilder("/auth/register")!!
             .build()
 
         val postData = serializer.encodeToString(

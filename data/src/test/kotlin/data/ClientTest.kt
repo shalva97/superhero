@@ -1,6 +1,8 @@
 package data
 
 import com.superhero.lib.Client
+import junit.framework.Assert.assertTrue
+import org.junit.Ignore
 import org.junit.Test
 
 class ClientTest {
@@ -11,15 +13,16 @@ class ClientTest {
     fun login() {
         val respo = client.login("string", "string")
 
-        assert(respo.accessToken.isNotEmpty())
+        assertTrue(respo.accessToken.isNotEmpty())
     }
 
+    @Ignore
     @Test
     fun register() {
 
-        val res = client.register("blah", "bluh", "you are gay")
+        val res = client.register("blah", "bluh", "gay")
 
         println(res.body?.string())
-        assert(res.code == 200)
+        assertTrue(res.code == 200)
     }
 }
